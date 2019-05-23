@@ -2,6 +2,9 @@
 syntax = "proto3";
 
 message Book {
+  // 1 - 15 is 1 byte
   string name = 1;
-  string author = 2;
+  // max 2 ^ 29 - 1 is 536870911
+  string author = 536870911;
+  // 19000-19999 is reserved
 }

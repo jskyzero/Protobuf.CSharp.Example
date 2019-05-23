@@ -22,8 +22,8 @@ public static partial class BookReflection {
   static BookReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "Cgpib29rLnByb3RvIiQKBEJvb2sSDAoEbmFtZRgBIAEoCRIOCgZhdXRob3IY",
-          "AiABKAliBnByb3RvMw=="));
+          "Cgpib29rLnByb3RvIigKBEJvb2sSDAoEbmFtZRgBIAEoCRISCgZhdXRob3IY",
+          "/////wEgASgJYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -72,6 +72,9 @@ public sealed partial class Book : pb::IMessage<Book> {
   /// <summary>Field number for the "name" field.</summary>
   public const int NameFieldNumber = 1;
   private string name_ = "";
+  /// <summary>
+  /// 1 - 15 is 1 byte
+  /// </summary>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Name {
     get { return name_; }
@@ -81,8 +84,11 @@ public sealed partial class Book : pb::IMessage<Book> {
   }
 
   /// <summary>Field number for the "author" field.</summary>
-  public const int AuthorFieldNumber = 2;
+  public const int AuthorFieldNumber = 536870911;
   private string author_ = "";
+  /// <summary>
+  /// max 2 ^ 29 - 1 is 536870911
+  /// </summary>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Author {
     get { return author_; }
@@ -132,7 +138,7 @@ public sealed partial class Book : pb::IMessage<Book> {
       output.WriteString(Name);
     }
     if (Author.Length != 0) {
-      output.WriteRawTag(18);
+      output.WriteRawTag(250, 255, 255, 255, 15);
       output.WriteString(Author);
     }
     if (_unknownFields != null) {
@@ -147,7 +153,7 @@ public sealed partial class Book : pb::IMessage<Book> {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
     }
     if (Author.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Author);
+      size += 5 + pb::CodedOutputStream.ComputeStringSize(Author);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -181,7 +187,7 @@ public sealed partial class Book : pb::IMessage<Book> {
           Name = input.ReadString();
           break;
         }
-        case 18: {
+        case 4294967290: {
           Author = input.ReadString();
           break;
         }
