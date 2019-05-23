@@ -1,0 +1,7 @@
+// without this, default will be proto2
+syntax = "proto3";
+
+message Book {
+  string name = 1;
+  string author = 2;
+}
