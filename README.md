@@ -22,13 +22,18 @@ BorrowRecord:
 
 Commands:
 Default:
-  + Check books
+  + Check Books
   + Borrow & Return Books
-  + Show Self record
+  + Show Self Record
   + Change Password
 Administrator:
   + Add User
   + Add Books
-  + Show All record
-
+  + Show All Record
 ```
+
+## About `protocol-buffers`
+
+接下来讲简单概述一下`protocol-buffers`的相关使用方法。
+
+### 

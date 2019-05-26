@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace protobuf.csharp.example {
+namespace Protobuf.Csharp.Example {
     class Program {
         static void Main(string[] args) {
-            var book = new Book {
+            var book = new Model.Book {
                 Name= "123",
                 Author = "123"
             };

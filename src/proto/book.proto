@@ -1,6 +1,8 @@
 // without this, default will be proto2
 syntax = "proto3";
 
+package protobuf.csharp.example.model;
+
 message Book {
   // 1 - 15 is 1 byte
   string name = 1;
