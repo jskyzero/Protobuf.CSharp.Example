@@ -24,15 +24,14 @@ namespace Protobuf.Csharp.Example.Model {
     static UserReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgp1c2VyLnByb3RvEh1wcm90b2J1Zi5jc2hhcnAuZXhhbXBsZS5tb2RlbCKT",
-            "AQoEVXNlchIMCgRuYW1lGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJEj4KCHJv",
-            "bGV0eXBlGAMgASgOMiwucHJvdG9idWYuY3NoYXJwLmV4YW1wbGUubW9kZWwu",
-            "VXNlci5Sb2xlVHlwZSIrCghSb2xlVHlwZRIMCghkZWZhbHVsdBAAEhEKDWFk",
-            "bWluaXN0cmF0b3IQAmIGcHJvdG8z"));
+            "Cgp1c2VyLnByb3RvEh1wcm90b2J1Zi5jc2hhcnAuZXhhbXBsZS5tb2RlbCJi",
+            "CgRVc2VyEgwKBG5hbWUYASABKAkSEAoIcGFzc3dvcmQYAiABKAkSEwoJaXNE",
+            "ZWZhdWx0GAMgASgISAASGAoOaXNBZG1pbnN0cmF0b3IYBCABKAhIAEILCgly",
+            "b2xlX3R5cGViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.User), global::Protobuf.Csharp.Example.Model.User.Parser, new[]{ "Name", "Password", "Roletype" }, null, new[]{ typeof(global::Protobuf.Csharp.Example.Model.User.Types.RoleType) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.User), global::Protobuf.Csharp.Example.Model.User.Parser, new[]{ "Name", "Password", "IsDefault", "IsAdminstrator" }, new[]{ "RoleType" }, null, null)
           }));
     }
     #endregion
@@ -66,7 +65,15 @@ namespace Protobuf.Csharp.Example.Model {
     public User(User other) : this() {
       name_ = other.name_;
       password_ = other.password_;
-      roletype_ = other.roletype_;
+      switch (other.RoleTypeCase) {
+        case RoleTypeOneofCase.IsDefault:
+          IsDefault = other.IsDefault;
+          break;
+        case RoleTypeOneofCase.IsAdminstrator:
+          IsAdminstrator = other.IsAdminstrator;
+          break;
+      }
+
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -97,15 +104,45 @@ namespace Protobuf.Csharp.Example.Model {
       }
     }
 
-    /// <summary>Field number for the "roletype" field.</summary>
-    public const int RoletypeFieldNumber = 3;
-    private global::Protobuf.Csharp.Example.Model.User.Types.RoleType roletype_ = 0;
+    /// <summary>Field number for the "isDefault" field.</summary>
+    public const int IsDefaultFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Protobuf.Csharp.Example.Model.User.Types.RoleType Roletype {
-      get { return roletype_; }
+    public bool IsDefault {
+      get { return roleTypeCase_ == RoleTypeOneofCase.IsDefault ? (bool) roleType_ : false; }
       set {
-        roletype_ = value;
+        roleType_ = value;
+        roleTypeCase_ = RoleTypeOneofCase.IsDefault;
       }
+    }
+
+    /// <summary>Field number for the "isAdminstrator" field.</summary>
+    public const int IsAdminstratorFieldNumber = 4;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsAdminstrator {
+      get { return roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator ? (bool) roleType_ : false; }
+      set {
+        roleType_ = value;
+        roleTypeCase_ = RoleTypeOneofCase.IsAdminstrator;
+      }
+    }
+
+    private object roleType_;
+    /// <summary>Enum of possible cases for the "role_type" oneof.</summary>
+    public enum RoleTypeOneofCase {
+      None = 0,
+      IsDefault = 3,
+      IsAdminstrator = 4,
+    }
+    private RoleTypeOneofCase roleTypeCase_ = RoleTypeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RoleTypeOneofCase RoleTypeCase {
+      get { return roleTypeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void ClearRoleType() {
+      roleTypeCase_ = RoleTypeOneofCase.None;
+      roleType_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -123,7 +160,9 @@ namespace Protobuf.Csharp.Example.Model {
       }
       if (Name != other.Name) return false;
       if (Password != other.Password) return false;
-      if (Roletype != other.Roletype) return false;
+      if (IsDefault != other.IsDefault) return false;
+      if (IsAdminstrator != other.IsAdminstrator) return false;
+      if (RoleTypeCase != other.RoleTypeCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -132,7 +171,9 @@ namespace Protobuf.Csharp.Example.Model {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Password.Length != 0) hash ^= Password.GetHashCode();
-      if (Roletype != 0) hash ^= Roletype.GetHashCode();
+      if (roleTypeCase_ == RoleTypeOneofCase.IsDefault) hash ^= IsDefault.GetHashCode();
+      if (roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator) hash ^= IsAdminstrator.GetHashCode();
+      hash ^= (int) roleTypeCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -154,9 +195,13 @@ namespace Protobuf.Csharp.Example.Model {
         output.WriteRawTag(18);
         output.WriteString(Password);
       }
-      if (Roletype != 0) {
+      if (roleTypeCase_ == RoleTypeOneofCase.IsDefault) {
         output.WriteRawTag(24);
-        output.WriteEnum((int) Roletype);
+        output.WriteBool(IsDefault);
+      }
+      if (roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator) {
+        output.WriteRawTag(32);
+        output.WriteBool(IsAdminstrator);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -172,8 +217,11 @@ namespace Protobuf.Csharp.Example.Model {
       if (Password.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
       }
-      if (Roletype != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Roletype);
+      if (roleTypeCase_ == RoleTypeOneofCase.IsDefault) {
+        size += 1 + 1;
+      }
+      if (roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -192,9 +240,15 @@ namespace Protobuf.Csharp.Example.Model {
       if (other.Password.Length != 0) {
         Password = other.Password;
       }
-      if (other.Roletype != 0) {
-        Roletype = other.Roletype;
+      switch (other.RoleTypeCase) {
+        case RoleTypeOneofCase.IsDefault:
+          IsDefault = other.IsDefault;
+          break;
+        case RoleTypeOneofCase.IsAdminstrator:
+          IsAdminstrator = other.IsAdminstrator;
+          break;
       }
+
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -215,24 +269,16 @@ namespace Protobuf.Csharp.Example.Model {
             break;
           }
           case 24: {
-            Roletype = (global::Protobuf.Csharp.Example.Model.User.Types.RoleType) input.ReadEnum();
+            IsDefault = input.ReadBool();
+            break;
+          }
+          case 32: {
+            IsAdminstrator = input.ReadBool();
             break;
           }
         }
       }
     }
-
-    #region Nested types
-    /// <summary>Container for nested types declared in the User message type.</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static partial class Types {
-      public enum RoleType {
-        [pbr::OriginalName("defalult")] Defalult = 0,
-        [pbr::OriginalName("administrator")] Administrator = 2,
-      }
-
-    }
-    #endregion
 
   }
 

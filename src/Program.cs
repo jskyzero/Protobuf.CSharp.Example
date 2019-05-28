@@ -7,7 +7,12 @@ namespace Protobuf.Csharp.Example {
                 Name= "123",
                 Author = "123"
             };
-            Console.WriteLine(book.Author);
+            var user = new Model.User {
+                Name = "jskyzero",
+                Password = "123456",
+            };
+            user.IsAdminstrator = true;
+            Console.WriteLine(user.IsDefault);
         }
     }
 }

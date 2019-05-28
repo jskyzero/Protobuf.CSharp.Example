@@ -5,9 +5,13 @@ package protobuf.csharp.example.model;
 message User {
   string name = 1;
   string password = 2;
-  enum RoleType {
-    defalult = 0;
-    administrator = 1;
+  // enum RoleType {
+  //   defalult = 0;
+  //   administrator = 1;
+  // }
+  // RoleType roletype = 3;
+  oneof role_type {
+    bool isDefault = 3;
+    bool isAdminstrator = 4;
   }
-  RoleType roletype = 3;
 }
