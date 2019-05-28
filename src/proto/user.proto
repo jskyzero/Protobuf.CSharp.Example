@@ -7,8 +7,8 @@ message User {
   string password = 2;
 
   enum RoleType {
-    defalult = 0;
-    administrator = 1;
+    DEFAULT = 0;
+    ADMINISTRATOR = 1;
   }
   RoleType roletype = 3;
 }
