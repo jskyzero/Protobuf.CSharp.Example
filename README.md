@@ -13,12 +13,12 @@ User:
 Book:
   string, Name
   string, Details
-  int32, Numbers
+  int32, amount
 BorrowRecord:
-  User, user
-  Book, book
-  Time, BorrowTime
-  Time, ReturnTime
+  string, UserName
+  string, BookName
+  string, BorrowTime
+  string, ReturnTime
 
 Commands:
 
@@ -97,6 +97,7 @@ Administrator:
   + FileName: `lower_snake_case.proto`
   + MessageName: `SongServerRequest`
   + FieldName: `song_name`
+  + RepeatedField: `accounts`
   + Enums: `FOO_UNSPECIFIED`
   + Services: `GetSomething`
 + 编码相关

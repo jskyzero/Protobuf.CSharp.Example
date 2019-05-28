@@ -24,14 +24,17 @@ namespace Protobuf.Csharp.Example.Model {
     static UserReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgp1c2VyLnByb3RvEh1wcm90b2J1Zi5jc2hhcnAuZXhhbXBsZS5tb2RlbCJi",
-            "CgRVc2VyEgwKBG5hbWUYASABKAkSEAoIcGFzc3dvcmQYAiABKAkSEwoJaXNE",
-            "ZWZhdWx0GAMgASgISAASGAoOaXNBZG1pbnN0cmF0b3IYBCABKAhIAEILCgly",
-            "b2xlX3R5cGViBnByb3RvMw=="));
+            "Cgp1c2VyLnByb3RvEh1wcm90b2J1Zi5jc2hhcnAuZXhhbXBsZS5tb2RlbCKT",
+            "AQoEVXNlchIMCgRuYW1lGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJEj4KCHJv",
+            "bGV0eXBlGAMgASgOMiwucHJvdG9idWYuY3NoYXJwLmV4YW1wbGUubW9kZWwu",
+            "VXNlci5Sb2xlVHlwZSIrCghSb2xlVHlwZRIMCghkZWZhbHVsdBAAEhEKDWFk",
+            "bWluaXN0cmF0b3IQASI7CgVVc2VycxIyCgV1c2VycxgBIAMoCzIjLnByb3Rv",
+            "YnVmLmNzaGFycC5leGFtcGxlLm1vZGVsLlVzZXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.User), global::Protobuf.Csharp.Example.Model.User.Parser, new[]{ "Name", "Password", "IsDefault", "IsAdminstrator" }, new[]{ "RoleType" }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.User), global::Protobuf.Csharp.Example.Model.User.Parser, new[]{ "Name", "Password", "Roletype" }, null, new[]{ typeof(global::Protobuf.Csharp.Example.Model.User.Types.RoleType) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.Users), global::Protobuf.Csharp.Example.Model.Users.Parser, new[]{ "Users_" }, null, null, null)
           }));
     }
     #endregion
@@ -65,15 +68,7 @@ namespace Protobuf.Csharp.Example.Model {
     public User(User other) : this() {
       name_ = other.name_;
       password_ = other.password_;
-      switch (other.RoleTypeCase) {
-        case RoleTypeOneofCase.IsDefault:
-          IsDefault = other.IsDefault;
-          break;
-        case RoleTypeOneofCase.IsAdminstrator:
-          IsAdminstrator = other.IsAdminstrator;
-          break;
-      }
-
+      roletype_ = other.roletype_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -104,45 +99,15 @@ namespace Protobuf.Csharp.Example.Model {
       }
     }
 
-    /// <summary>Field number for the "isDefault" field.</summary>
-    public const int IsDefaultFieldNumber = 3;
+    /// <summary>Field number for the "roletype" field.</summary>
+    public const int RoletypeFieldNumber = 3;
+    private global::Protobuf.Csharp.Example.Model.User.Types.RoleType roletype_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool IsDefault {
-      get { return roleTypeCase_ == RoleTypeOneofCase.IsDefault ? (bool) roleType_ : false; }
+    public global::Protobuf.Csharp.Example.Model.User.Types.RoleType Roletype {
+      get { return roletype_; }
       set {
-        roleType_ = value;
-        roleTypeCase_ = RoleTypeOneofCase.IsDefault;
+        roletype_ = value;
       }
-    }
-
-    /// <summary>Field number for the "isAdminstrator" field.</summary>
-    public const int IsAdminstratorFieldNumber = 4;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool IsAdminstrator {
-      get { return roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator ? (bool) roleType_ : false; }
-      set {
-        roleType_ = value;
-        roleTypeCase_ = RoleTypeOneofCase.IsAdminstrator;
-      }
-    }
-
-    private object roleType_;
-    /// <summary>Enum of possible cases for the "role_type" oneof.</summary>
-    public enum RoleTypeOneofCase {
-      None = 0,
-      IsDefault = 3,
-      IsAdminstrator = 4,
-    }
-    private RoleTypeOneofCase roleTypeCase_ = RoleTypeOneofCase.None;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RoleTypeOneofCase RoleTypeCase {
-      get { return roleTypeCase_; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void ClearRoleType() {
-      roleTypeCase_ = RoleTypeOneofCase.None;
-      roleType_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -160,9 +125,7 @@ namespace Protobuf.Csharp.Example.Model {
       }
       if (Name != other.Name) return false;
       if (Password != other.Password) return false;
-      if (IsDefault != other.IsDefault) return false;
-      if (IsAdminstrator != other.IsAdminstrator) return false;
-      if (RoleTypeCase != other.RoleTypeCase) return false;
+      if (Roletype != other.Roletype) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -171,9 +134,7 @@ namespace Protobuf.Csharp.Example.Model {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Password.Length != 0) hash ^= Password.GetHashCode();
-      if (roleTypeCase_ == RoleTypeOneofCase.IsDefault) hash ^= IsDefault.GetHashCode();
-      if (roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator) hash ^= IsAdminstrator.GetHashCode();
-      hash ^= (int) roleTypeCase_;
+      if (Roletype != 0) hash ^= Roletype.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -195,13 +156,9 @@ namespace Protobuf.Csharp.Example.Model {
         output.WriteRawTag(18);
         output.WriteString(Password);
       }
-      if (roleTypeCase_ == RoleTypeOneofCase.IsDefault) {
+      if (Roletype != 0) {
         output.WriteRawTag(24);
-        output.WriteBool(IsDefault);
-      }
-      if (roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator) {
-        output.WriteRawTag(32);
-        output.WriteBool(IsAdminstrator);
+        output.WriteEnum((int) Roletype);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -217,11 +174,8 @@ namespace Protobuf.Csharp.Example.Model {
       if (Password.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
       }
-      if (roleTypeCase_ == RoleTypeOneofCase.IsDefault) {
-        size += 1 + 1;
-      }
-      if (roleTypeCase_ == RoleTypeOneofCase.IsAdminstrator) {
-        size += 1 + 1;
+      if (Roletype != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Roletype);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -240,15 +194,9 @@ namespace Protobuf.Csharp.Example.Model {
       if (other.Password.Length != 0) {
         Password = other.Password;
       }
-      switch (other.RoleTypeCase) {
-        case RoleTypeOneofCase.IsDefault:
-          IsDefault = other.IsDefault;
-          break;
-        case RoleTypeOneofCase.IsAdminstrator:
-          IsAdminstrator = other.IsAdminstrator;
-          break;
+      if (other.Roletype != 0) {
+        Roletype = other.Roletype;
       }
-
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -269,11 +217,140 @@ namespace Protobuf.Csharp.Example.Model {
             break;
           }
           case 24: {
-            IsDefault = input.ReadBool();
+            Roletype = (global::Protobuf.Csharp.Example.Model.User.Types.RoleType) input.ReadEnum();
             break;
           }
-          case 32: {
-            IsAdminstrator = input.ReadBool();
+        }
+      }
+    }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the User message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum RoleType {
+        [pbr::OriginalName("defalult")] Defalult = 0,
+        [pbr::OriginalName("administrator")] Administrator = 1,
+      }
+
+    }
+    #endregion
+
+  }
+
+  public sealed partial class Users : pb::IMessage<Users> {
+    private static readonly pb::MessageParser<Users> _parser = new pb::MessageParser<Users>(() => new Users());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<Users> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.Csharp.Example.Model.UserReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Users() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Users(Users other) : this() {
+      users_ = other.users_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Users Clone() {
+      return new Users(this);
+    }
+
+    /// <summary>Field number for the "users" field.</summary>
+    public const int Users_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Protobuf.Csharp.Example.Model.User> _repeated_users_codec
+        = pb::FieldCodec.ForMessage(10, global::Protobuf.Csharp.Example.Model.User.Parser);
+    private readonly pbc::RepeatedField<global::Protobuf.Csharp.Example.Model.User> users_ = new pbc::RepeatedField<global::Protobuf.Csharp.Example.Model.User>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Protobuf.Csharp.Example.Model.User> Users_ {
+      get { return users_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as Users);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(Users other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!users_.Equals(other.users_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= users_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      users_.WriteTo(output, _repeated_users_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += users_.CalculateSize(_repeated_users_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(Users other) {
+      if (other == null) {
+        return;
+      }
+      users_.Add(other.users_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            users_.AddEntriesFrom(input, _repeated_users_codec);
             break;
           }
         }

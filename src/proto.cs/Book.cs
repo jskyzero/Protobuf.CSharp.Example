@@ -24,13 +24,15 @@ namespace Protobuf.Csharp.Example.Model {
     static BookReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgpib29rLnByb3RvEh1wcm90b2J1Zi5jc2hhcnAuZXhhbXBsZS5tb2RlbCIo",
-            "CgRCb29rEgwKBG5hbWUYASABKAkSEgoGYXV0aG9yGP////8BIAEoCWIGcHJv",
-            "dG8z"));
+            "Cgpib29rLnByb3RvEh1wcm90b2J1Zi5jc2hhcnAuZXhhbXBsZS5tb2RlbCI1",
+            "CgRCb29rEgwKBG5hbWUYASABKAkSDwoHZGV0YWlscxgCIAEoCRIOCgZhbW91",
+            "bnQYAyABKA0iOwoFQm9va3MSMgoFYm9va3MYASADKAsyIy5wcm90b2J1Zi5j",
+            "c2hhcnAuZXhhbXBsZS5tb2RlbC5Cb29rYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.Book), global::Protobuf.Csharp.Example.Model.Book.Parser, new[]{ "Name", "Author" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.Book), global::Protobuf.Csharp.Example.Model.Book.Parser, new[]{ "Name", "Details", "Amount" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Csharp.Example.Model.Books), global::Protobuf.Csharp.Example.Model.Books.Parser, new[]{ "Books_" }, null, null, null)
           }));
     }
     #endregion
@@ -63,7 +65,8 @@ namespace Protobuf.Csharp.Example.Model {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Book(Book other) : this() {
       name_ = other.name_;
-      author_ = other.author_;
+      details_ = other.details_;
+      amount_ = other.amount_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -75,9 +78,6 @@ namespace Protobuf.Csharp.Example.Model {
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
     private string name_ = "";
-    /// <summary>
-    /// 1 - 15 is 1 byte
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
       get { return name_; }
@@ -86,17 +86,25 @@ namespace Protobuf.Csharp.Example.Model {
       }
     }
 
-    /// <summary>Field number for the "author" field.</summary>
-    public const int AuthorFieldNumber = 536870911;
-    private string author_ = "";
-    /// <summary>
-    /// max 2 ^ 29 - 1 is 536870911
-    /// </summary>
+    /// <summary>Field number for the "details" field.</summary>
+    public const int DetailsFieldNumber = 2;
+    private string details_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Author {
-      get { return author_; }
+    public string Details {
+      get { return details_; }
       set {
-        author_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        details_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "amount" field.</summary>
+    public const int AmountFieldNumber = 3;
+    private uint amount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint Amount {
+      get { return amount_; }
+      set {
+        amount_ = value;
       }
     }
 
@@ -114,7 +122,8 @@ namespace Protobuf.Csharp.Example.Model {
         return true;
       }
       if (Name != other.Name) return false;
-      if (Author != other.Author) return false;
+      if (Details != other.Details) return false;
+      if (Amount != other.Amount) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -122,7 +131,8 @@ namespace Protobuf.Csharp.Example.Model {
     public override int GetHashCode() {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (Author.Length != 0) hash ^= Author.GetHashCode();
+      if (Details.Length != 0) hash ^= Details.GetHashCode();
+      if (Amount != 0) hash ^= Amount.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -140,9 +150,13 @@ namespace Protobuf.Csharp.Example.Model {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (Author.Length != 0) {
-        output.WriteRawTag(250, 255, 255, 255, 15);
-        output.WriteString(Author);
+      if (Details.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Details);
+      }
+      if (Amount != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Amount);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -155,8 +169,11 @@ namespace Protobuf.Csharp.Example.Model {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (Author.Length != 0) {
-        size += 5 + pb::CodedOutputStream.ComputeStringSize(Author);
+      if (Details.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Details);
+      }
+      if (Amount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Amount);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -172,8 +189,11 @@ namespace Protobuf.Csharp.Example.Model {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.Author.Length != 0) {
-        Author = other.Author;
+      if (other.Details.Length != 0) {
+        Details = other.Details;
+      }
+      if (other.Amount != 0) {
+        Amount = other.Amount;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -190,8 +210,133 @@ namespace Protobuf.Csharp.Example.Model {
             Name = input.ReadString();
             break;
           }
-          case 4294967290: {
-            Author = input.ReadString();
+          case 18: {
+            Details = input.ReadString();
+            break;
+          }
+          case 24: {
+            Amount = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class Books : pb::IMessage<Books> {
+    private static readonly pb::MessageParser<Books> _parser = new pb::MessageParser<Books>(() => new Books());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<Books> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.Csharp.Example.Model.BookReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Books() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Books(Books other) : this() {
+      books_ = other.books_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Books Clone() {
+      return new Books(this);
+    }
+
+    /// <summary>Field number for the "books" field.</summary>
+    public const int Books_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Protobuf.Csharp.Example.Model.Book> _repeated_books_codec
+        = pb::FieldCodec.ForMessage(10, global::Protobuf.Csharp.Example.Model.Book.Parser);
+    private readonly pbc::RepeatedField<global::Protobuf.Csharp.Example.Model.Book> books_ = new pbc::RepeatedField<global::Protobuf.Csharp.Example.Model.Book>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Protobuf.Csharp.Example.Model.Book> Books_ {
+      get { return books_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as Books);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(Books other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!books_.Equals(other.books_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= books_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      books_.WriteTo(output, _repeated_books_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += books_.CalculateSize(_repeated_books_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(Books other) {
+      if (other == null) {
+        return;
+      }
+      books_.Add(other.books_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            books_.AddEntriesFrom(input, _repeated_books_codec);
             break;
           }
         }

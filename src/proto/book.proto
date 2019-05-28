@@ -4,9 +4,11 @@ syntax = "proto3";
 package protobuf.csharp.example.model;
 
 message Book {
-  // 1 - 15 is 1 byte
   string name = 1;
-  // max 2 ^ 29 - 1 is 536870911
-  string author = 536870911;
-  // 19000-19999 is reserved
+  string details = 2;
+  uint32 amount = 3;
+}
+
+message Books {
+  repeated Book books = 1;
 }

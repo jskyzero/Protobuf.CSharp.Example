@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message BorrowRecord {
+  string user_name = 1;
+  string book_name = 2;
+  string borrow_time = 3;
+  string return_time = 4;
+}
+
+message BorrowRecords {
+  repeated BorrowRecord borrow_records = 1;
+}
