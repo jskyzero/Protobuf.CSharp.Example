@@ -3,23 +3,25 @@ using System.ComponentModel;
 using System.Reflection;
 
 namespace Protobuf.Csharp.Example.Controller {
-  internal static class LogHelper {
-    public enum LogType {
-      [Description("LOG")]
-      DEFAULT = 0,
-      WARNING = 1,
-      ERROR = 2,
-    }
 
+  internal enum LogType {
+    [Description("LOG")]
+    DEFAULT = 0,
+    WARNING = 1,
+    ERROR = 2,
+    DEBUG = 3,
+  }
+
+  internal static class LogHelper {
     private static void Log(string logString) {
       Console.Out.WriteLine(logString);
     }
 
     public static void Log(LogType type, string logString) {
-      Log(string.Format("{0}: {1}", GetDescription(type), logString));
+      Log(string.Format("{0}: {1}", GetEnumDescription(type), logString));
     }
 
-    private static string GetDescription<T>(this T enumerationValue)
+    private static string GetEnumDescription<T>(this T enumerationValue)
     where T : struct {
       Type type = enumerationValue.GetType();
       if (!type.IsEnum) {
@@ -29,7 +31,7 @@ namespace Protobuf.Csharp.Example.Controller {
 
       //Tries to find a DescriptionAttribute for a potential friendly name
       //for the enum
-      MemberInfo[] memberInfo = type.GetMembers();
+      MemberInfo[] memberInfo = type.GetMember(enumerationValue.ToString());
       if (memberInfo != null && memberInfo.Length > 0) {
         object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 

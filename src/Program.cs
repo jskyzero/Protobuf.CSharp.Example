@@ -11,8 +11,9 @@ namespace Protobuf.Csharp.Example {
             //     Password = "123456",
             // };
             // Console.WriteLine(user.IsDefault);
-            Viewer.Viewer app = new Viewer.Viewer();
-            app.Main();
+            using(var app = new Viewer.Viewer()) {
+                app.Main();
+            }
         }
     }
 }
