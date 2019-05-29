@@ -10,9 +10,9 @@ namespace Protobuf.Csharp.Example {
             //     Name = "jskyzero",
             //     Password = "123456",
             // };
-            Controller.Controller controller = new Controller.Controller();
-            controller.SaveDataFile();
             // Console.WriteLine(user.IsDefault);
+            Viewer.Viewer app = new Viewer.Viewer();
+            app.Main();
         }
     }
 }
