@@ -7,7 +7,7 @@ using Protobuf.Csharp.Example.Controller;
 namespace Protobuf.Csharp.Example.Viewer {
   internal class Viewer : IDisposable {
     private static string kSaltString = "jskyzero";
-    private string name = "";
+    private string username = "";
     private string password = "";
     private bool isPasswordRight = false;
     private bool isAdministratorAccount = false;
@@ -45,71 +45,83 @@ namespace Protobuf.Csharp.Example.Viewer {
       PrintInputCharacter();
       string bookname = Console.In.ReadLine();
       string findResult = controller.FindBooks(bookname);
-      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      Console.WriteLine(
+        findResult == string.Empty ?
+        "No such name book" :
+        findResult);
     }
 
     private void BorrowBook() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      if (controller.BorrowBook(bookname, username)) {
+        Console.Out.WriteLine("Borrow success");
+      } else {
+        Console.Out.WriteLine("Borrow failed, please check book amount");
+      };
     }
 
     private void ReturnBook() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      if (controller.BorrowBook(bookname, username)) {
+        Console.Out.WriteLine("Return success");
+      } else {
+        Console.Out.WriteLine("Return failed, please check your record");
+      };
     }
 
     private void ListBorrowRecord() {
-      Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      // Console.Out.WriteLine("Enter book name");
+      // PrintInputCharacter();
+      // string bookname = Console.In.ReadLine();
+      string findResult = controller.FindRecords(username);
+      Console.WriteLine(
+        findResult == string.Empty ?
+        "No borrow record" :
+        findResult);
     }
 
     private void ChangePassword() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      string findResult = controller.FindBooks(bookname);
+      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
     }
 
     private void AddUser() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      string findResult = controller.FindBooks(bookname);
+      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
     }
 
     private void AddBooks() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      string findResult = controller.FindBooks(bookname);
+      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
     }
 
     private void ShowAllRecord() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      string findResult = controller.FindBooks(bookname);
+      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
     }
 
     private void DeleteUser() {
       Console.Out.WriteLine("Enter book name");
-          PrintInputCharacter();
-          string bookname = Console.In.ReadLine();
-          string findResult = controller.FindBooks(bookname);
-          Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      PrintInputCharacter();
+      string bookname = Console.In.ReadLine();
+      string findResult = controller.FindBooks(bookname);
+      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
     }
 
     private void MainLoop() {
@@ -179,13 +191,13 @@ namespace Protobuf.Csharp.Example.Viewer {
       Console.Out.WriteLine("[User Login]");
       Console.Out.WriteLine("Input your user name");
       PrintInputCharacter();
-      name = Console.In.ReadLine();
+      username = Console.In.ReadLine();
       Console.Out.WriteLine("Input your password");
       PrintInputCharacter();
       password = PasswordHash(Console.In.ReadLine(), kSaltString);
-      isPasswordRight = controller.CheckUserPassword(name, password);
+      isPasswordRight = controller.CheckUserPassword(username, password);
       isAdministratorAccount = controller.CheckIsAdministratorUser(
-        name, password);
+        username, password);
     }
 
     private static string PasswordHash(string password, string salt) {

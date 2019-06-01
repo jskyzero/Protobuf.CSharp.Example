@@ -11,9 +11,11 @@ namespace Protobuf.Csharp.Example.Controller {
   public class Controller : IDisposable {
     private static Users _users = new Users();
     private static Books _books = new Books();
+    private static BorrowRecords _records = new BorrowRecords();
     private RepeatedField<User> users => _users.Users_;
     private RepeatedField<Book> books => _books.Books_;
-    private static BorrowRecords records = new BorrowRecords();
+    private RepeatedField<BorrowRecord> records => _records.BorrowRecords_;
+
     private static Dictionary<string, Tuple<Action<FileStream>, Action<FileStream>>> fileMapDict =
       new Dictionary<string, Tuple<Action<FileStream>, Action<FileStream>>> {
         {
@@ -40,10 +42,10 @@ namespace Protobuf.Csharp.Example.Controller {
           "records.dat",
           new Tuple<Action<FileStream>, Action<FileStream>>(
             new Action<FileStream>((input) => {
-              records = BorrowRecords.Parser.ParseFrom(input);
+              _records = BorrowRecords.Parser.ParseFrom(input);
             }),
             new Action<FileStream>((output) => {
-              records.WriteTo(output);
+              _records.WriteTo(output);
             }))
         },
       };
@@ -82,32 +84,79 @@ namespace Protobuf.Csharp.Example.Controller {
       LogHelper.Log(LogType.DEBUG, user.ToString());
     }
 
-    public bool BorrowBook(string name) {
-      return false;
-    }
-
-    public bool ReturnBook(string name) {
-      return false;
-    }
-
-    public string FindBooks(string name) {
-      var list = books.Where(book => book.Name == name).Select(book => {
-        return String.Format("Name: {0}\ndetails: {1}\namount: {2}\n", 
-        book.Name, book.Details, book.Amount);
-      });
+    public string FindBooks(string bookname) {
+      var list = books.Where(
+        book => book.Name == bookname).Select(
+        book => {
+          return String.Format(
+            "Name: {0}\ndetails: {1}\namount: {2}\n",
+            book.Name, book.Details, book.Amount);
+        });
       return String.Join("\n", list);
     }
 
+    public bool BorrowBook(string bookname, string username) {
+      if (books.Where(book =>
+          book.Name == bookname &&
+          book.Amount > 0).Count() != 1)
+        return false;
+      foreach (var book in books) {
+        if (book.Name == bookname) book.Amount -= 1;
+      }
+      var record = new BorrowRecord() {
+        UserName = username,
+        BookName = bookname,
+        BorrowTime = DateTime.Now.ToString(),
+      };
+      records.Add(record);
+      return true;
+    }
+
+    public bool ReturnBook(string bookname, string username) {
+      if (books.Where(book => book.Name == bookname).Count() != 1)
+        return false;
+      if (records.Where(record =>
+          record.BookName == bookname &&
+          record.UserName == username &&
+          record.ReturnTime == string.Empty).Count() == 0) return false;
+      foreach (var book in books) {
+        if (book.Name == bookname) book.Amount -= 1;
+      }
+      foreach (var record in records) {
+        if (record.BookName == bookname &&
+          record.UserName == username &&
+          record.ReturnTime == string.Empty)
+          record.ReturnTime = DateTime.Now.ToString();
+      }
+      return true;
+    }
+
+    public string FindRecords(string username) {
+      return String.Join("\n",
+        records.Where(record =>
+          record.UserName == username).Select(
+          record =>
+          String.Format(
+            "BookName: {0}\nBorrowDate: {1}\nReturnDate: {2}\n",
+            record.BookName, record.BorrowTime,
+            record.ReturnTime == String.Empty ? "Unturened" : record.ReturnTime)
+        ));
+    }
+
     public bool CheckUserPassword(string name, string password) {
-      return users.Where(user => user.Name == name && user.Password == password).Count() == 1;
+      return users.Where(user => user.Name == name &&
+        user.Password == password).Count() == 1;
     }
 
     public bool UpdateUserPassword(string name, string password, string newPassword) {
-      return users.Where(user => user.Name == name && user.Password == password).Count() == 1;
+      return users.Where(user => user.Name == name &&
+        user.Password == password).Count() == 1;
     }
 
     public bool CheckIsAdministratorUser(string name, string password) {
-      return users.Where(user => user.Name == name && user.Password == password && user.Roletype == User.Types.RoleType.Administrator).Count() == 1;
+      return users.Where(user => user.Name == name &&
+        user.Password == password &&
+        user.Roletype == User.Types.RoleType.Administrator).Count() == 1;
     }
 
     public void AddAdministratorUser(string password) {
