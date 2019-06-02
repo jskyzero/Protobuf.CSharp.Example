@@ -1,6 +1,15 @@
 # protobuf.csharp.example
 `jskyzero` `2019/05/23`
 
+
+[![](https://img.shields.io/badge/Author-jskyzero-brightgreen.svg?style=flat)]()
+[![](https://img.shields.io/badge/Data-2019/05/23-brightgreen.svg?style=flat)]()
+[![Build Status](https://jskyzero.visualstudio.com/Protobuf.CSharp.Example/_apis/build/status/oYOvOYo.Protobuf.CSharp.Example?branchName=master)](https://jskyzero.visualstudio.com/Protobuf.CSharp.Example/_build/latest?definitionId=7&branchName=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/oyovoyo/protobuf.csharp.example/badge)](https://www.codefactor.io/repository/github/oyovoyo/protobuf.csharp.example)
+[![](https://img.shields.io/badge/netcoreapp-2.1-blue.svg?style=flat)]()
+
+
+
 ## Structure
 
 ```
