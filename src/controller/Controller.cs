@@ -71,17 +71,17 @@ namespace Protobuf.Csharp.Example.Controller {
       LogHelper.Log(LogType.DEBUG, "SaveDataFile2 End");
     }
 
-    public bool isUserNameExist(string name) {
-      return users.Where(user => user.Name == name).Count() != 0;
+    public bool CheckBookNameExists(string bookname) {
+      return books.Where(book => book.Name == bookname).Count() > 0;
     }
 
-    public void AddUser(string name, string password) {
-      var user = new User {
-        Name = name,
-        Password = password,
+    public void AddBook(string bookname, string details, uint amount) {
+      var newBook = new Book {
+        Name = bookname,
+        Details = details,
+        Amount = amount,
       };
-      users.Add(user);
-      LogHelper.Log(LogType.DEBUG, user.ToString());
+      books.Add(newBook);
     }
 
     public string FindBooks(string bookname) {
@@ -120,13 +120,15 @@ namespace Protobuf.Csharp.Example.Controller {
           record.UserName == username &&
           record.ReturnTime == string.Empty).Count() == 0) return false;
       foreach (var book in books) {
-        if (book.Name == bookname) book.Amount -= 1;
+        if (book.Name == bookname) book.Amount += 1;
       }
       foreach (var record in records) {
         if (record.BookName == bookname &&
           record.UserName == username &&
-          record.ReturnTime == string.Empty)
-          record.ReturnTime = DateTime.Now.ToString();
+          record.ReturnTime == string.Empty) {
+            record.ReturnTime = DateTime.Now.ToString();
+            break;
+          }
       }
       return true;
     }
@@ -143,14 +145,52 @@ namespace Protobuf.Csharp.Example.Controller {
         ));
     }
 
+    public string FindRecords() {
+      return String.Join("\n",
+        records.Select(
+          record =>
+          String.Format(
+            "UserName: {3}\nBookName: {0}\nBorrowDate: {1}\nReturnDate: {2}\n",
+            record.BookName, record.BorrowTime,
+            record.ReturnTime == String.Empty ? "Unturened" : record.ReturnTime,
+            record.UserName)
+        ));
+    }
+
+    public bool CheckUserNameExist(string name) {
+      return users.Where(user => user.Name == name).Count() != 0;
+    }
+
+    public void AddUser(string name, string password, User.Types.RoleType type = User.Types.RoleType.Defalult) {
+      var user = new User {
+      Name = name,
+      Password = password,
+      Roletype = type
+      };
+      users.Add(user);
+      LogHelper.Log(LogType.DEBUG, user.ToString());
+    }
+
+    public void DeleteUser(string name) {
+      users.Remove(users.Where(user => user.Name == name).First());
+    }
+
     public bool CheckUserPassword(string name, string password) {
       return users.Where(user => user.Name == name &&
         user.Password == password).Count() == 1;
     }
 
     public bool UpdateUserPassword(string name, string password, string newPassword) {
-      return users.Where(user => user.Name == name &&
-        user.Password == password).Count() == 1;
+      if (users.Where(user => user.Name == name &&
+          user.Password == password).Count() != 1)
+        return false;
+      foreach (var user in users) {
+        if (user.Name == name &&
+          user.Password == password) {
+          user.Password = newPassword;
+        }
+      }
+      return true;
     }
 
     public bool CheckIsAdministratorUser(string name, string password) {
@@ -160,7 +200,7 @@ namespace Protobuf.Csharp.Example.Controller {
     }
 
     public void AddAdministratorUser(string password) {
-      AddUser(kAdministratorAccountName, password);
+      AddUser(kAdministratorAccountName, password, User.Types.RoleType.Administrator);
     }
 
     // Parsing 

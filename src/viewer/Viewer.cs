@@ -29,7 +29,6 @@ namespace Protobuf.Csharp.Example.Viewer {
       // main function
       while (isLogout) {
         PrintMenu();
-        PrintInputCharacter();
         MainLoop();
       }
     }
@@ -66,7 +65,7 @@ namespace Protobuf.Csharp.Example.Viewer {
       Console.Out.WriteLine("Enter book name");
       PrintInputCharacter();
       string bookname = Console.In.ReadLine();
-      if (controller.BorrowBook(bookname, username)) {
+      if (controller.ReturnBook(bookname, username)) {
         Console.Out.WriteLine("Return success");
       } else {
         Console.Out.WriteLine("Return failed, please check your record");
@@ -74,9 +73,6 @@ namespace Protobuf.Csharp.Example.Viewer {
     }
 
     private void ListBorrowRecord() {
-      // Console.Out.WriteLine("Enter book name");
-      // PrintInputCharacter();
-      // string bookname = Console.In.ReadLine();
       string findResult = controller.FindRecords(username);
       Console.WriteLine(
         findResult == string.Empty ?
@@ -85,76 +81,140 @@ namespace Protobuf.Csharp.Example.Viewer {
     }
 
     private void ChangePassword() {
-      Console.Out.WriteLine("Enter book name");
+      Console.Out.WriteLine("Enter old password");
       PrintInputCharacter();
-      string bookname = Console.In.ReadLine();
-      string findResult = controller.FindBooks(bookname);
-      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      string oldpassword = PasswordHash(Console.In.ReadLine(), kSaltString);
+      Console.Out.WriteLine("Enter new password");
+      PrintInputCharacter();
+      string newpassword = PasswordHash(Console.In.ReadLine(), kSaltString);
+      if (controller.UpdateUserPassword(username, oldpassword, newpassword)) {
+        Console.WriteLine("Update user password success");
+        Console.WriteLine("Please Login agagin");
+        isPasswordRight = false;
+      } else {
+        Console.WriteLine("Update user password failed, please check your oldpassword");
+      }
     }
 
     private void AddUser() {
-      Console.Out.WriteLine("Enter book name");
+      Console.Out.WriteLine("Enter user name");
       PrintInputCharacter();
-      string bookname = Console.In.ReadLine();
-      string findResult = controller.FindBooks(bookname);
-      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      string newUsername = Console.In.ReadLine();
+      Console.Out.WriteLine("Enter user default password");
+      PrintInputCharacter();
+      string newPassword = PasswordHash(Console.In.ReadLine(), kSaltString);
+      if (controller.CheckUserNameExist(newUsername)) {
+        Console.Out.WriteLine("Username exists, please change a new username");
+      } else {
+        controller.AddUser(newUsername, newPassword);
+        Console.Out.WriteLine("Add user success");
+      }
     }
 
     private void AddBooks() {
       Console.Out.WriteLine("Enter book name");
       PrintInputCharacter();
       string bookname = Console.In.ReadLine();
-      string findResult = controller.FindBooks(bookname);
-      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      Console.Out.WriteLine("Enter book details");
+      PrintInputCharacter();
+      string detail = Console.In.ReadLine();
+      Console.Out.WriteLine("Enter book amount");
+      PrintInputCharacter();
+      uint amount = UInt32.Parse(Console.In.ReadLine());
+
+      if (controller.CheckBookNameExists(bookname)) {
+        Console.Out.WriteLine("Bookname exists, please change a new bookname");
+      } else {
+        controller.AddBook(bookname, detail, amount);
+        Console.Out.WriteLine("Add book success");
+      }
     }
 
     private void ShowAllRecord() {
-      Console.Out.WriteLine("Enter book name");
-      PrintInputCharacter();
-      string bookname = Console.In.ReadLine();
-      string findResult = controller.FindBooks(bookname);
-      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+     Console.Out.WriteLine(controller.FindRecords());
     }
 
     private void DeleteUser() {
-      Console.Out.WriteLine("Enter book name");
+      Console.Out.WriteLine("Enter user name");
       PrintInputCharacter();
-      string bookname = Console.In.ReadLine();
-      string findResult = controller.FindBooks(bookname);
-      Console.WriteLine(findResult == string.Empty ? "No Such Name Book" : findResult);
+      string username = Console.In.ReadLine();
+      if (controller.CheckUserNameExist(username)) {
+        controller.DeleteUser(username);
+        Console.Out.WriteLine("Delete user success");
+      } else {
+        Console.Out.WriteLine("Username unexist, please input correct username");
+      }
     }
 
     private void MainLoop() {
       PrintInputCharacter();
       string userChoice = Console.In.ReadLine();
-      switch (userChoice) {
-        case "0":
-          ExitSystem();
-          break;
-        case "1": // 1: Check Books
-          CheckBooks();
-          break;
-        case "2": // 2: Borrow Books
-          BorrowBook();
-          break;
-        case "3": // 3: Return Books
-          break;
-        case "4": // 4: List Borrow Record
-          break;
-        case "5": // 5: Change Password");
-          break;
-        case "6": // 6: (Administrator only) Add User
-          break;
-        case "7": // 7: (Administrator only) Add Books
-          break;
-        case "8": // 8: (Administrator only) Show All Record
-          break;
-        case "9": // 9: (Administrator only) Delete User
-          break;
-        default:
-          Console.Out.WriteLine("Your input is {0}", userChoice);
-          Console.Out.WriteLine("Can't find match methods, please check your input");
-          break;
+      if (!isAdministratorAccount) {
+        switch (userChoice) {
+          case "0":
+            ExitSystem();
+            break;
+          case "1": // 1: Check Books
+            CheckBooks();
+            break;
+          case "2": // 2: Borrow Books
+            BorrowBook();
+            break;
+          case "3": // 3: Return Books
+            ReturnBook();
+            break;
+          case "4": // 4: List Borrow Record
+            ListBorrowRecord();
+            break;
+          case "5": // 5: Change Password");
+            ChangePassword();
+            break;
+          case "6":
+          case "7":
+          case "8":
+          case "9":
+          default:
+            Console.Out.WriteLine("Your input is {0}", userChoice);
+            Console.Out.WriteLine("Can't find match methods, please check your input");
+            break;
+        }
+      } else {
+        switch (userChoice) {
+          case "0":
+            ExitSystem();
+            break;
+          case "1": // 1: Check Books
+            CheckBooks();
+            break;
+          case "2": // 2: Borrow Books
+            BorrowBook();
+            break;
+          case "3": // 3: Return Books
+            ReturnBook();
+            break;
+          case "4": // 4: List Borrow Record
+            ListBorrowRecord();
+            break;
+          case "5": // 5: Change Password");
+            ChangePassword();
+            break;
+          case "6": // 6: (Administrator only) Add User
+            AddUser();
+            break;
+          case "7": // 7: (Administrator only) Add Books
+            AddBooks();
+            break;
+          case "8": // 8: (Administrator only) Show All Record
+            ShowAllRecord();
+            break;
+          case "9": // 9: (Administrator only) Delete User
+            DeleteUser();
+            break;
+          default:
+            Console.Out.WriteLine("Your input is {0}", userChoice);
+            Console.Out.WriteLine("Can't find match methods, please check your input");
+            break;
+        }
       }
     }
 
