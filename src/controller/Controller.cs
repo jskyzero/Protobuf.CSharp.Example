@@ -224,7 +224,8 @@ namespace Protobuf.Csharp.Example.Controller {
       if (!Directory.Exists(kConfigFolderName))
         Directory.CreateDirectory(kConfigFolderName);
       foreach (var fileName in fileMapDict.Keys) {
-        using(var input = File.OpenWrite(kConfigFolderName + fileName)) {
+        // using(var input = File.OpenWrite(kConfigFolderName + fileName)) {
+        using(var input = File.Open(kConfigFolderName + fileName, FileMode.Create)) {
           // var valuePair = fileMapDict[fileName];
           // var objectType = valuePair.Item2.GetMembers()
           //   .Where(m => m.Name == "Parser").First();
