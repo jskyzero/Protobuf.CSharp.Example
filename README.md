@@ -1,6 +1,4 @@
 # protobuf.csharp.example
-`jskyzero` `2019/05/23`
-
 
 [![](https://img.shields.io/badge/Author-jskyzero-brightgreen.svg?style=flat)]()
 [![](https://img.shields.io/badge/Data-2019/05/23-brightgreen.svg?style=flat)]()
