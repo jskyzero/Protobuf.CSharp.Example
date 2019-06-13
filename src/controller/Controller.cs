@@ -18,36 +18,32 @@ namespace Protobuf.Csharp.Example.Controller {
 
     private static Dictionary<string, Tuple<Action<FileStream>, Action<FileStream>>> fileMapDict =
       new Dictionary<string, Tuple<Action<FileStream>, Action<FileStream>>> {
-        {
-          "user.dat",
-          new Tuple<Action<FileStream>, Action<FileStream>>(
-            new Action<FileStream>((input) => {
-              _users = Users.Parser.ParseFrom(input);
-            }),
-            new Action<FileStream>((output) => {
-              _users.WriteTo(output);
-            }))
-        },
-        {
-          "books.dat",
-          new Tuple<Action<FileStream>, Action<FileStream>>(
-            new Action<FileStream>((input) => {
-              _books = Books.Parser.ParseFrom(input);
-            }),
-            new Action<FileStream>((output) => {
-              _books.WriteTo(output);
-            }))
-        },
-        {
-          "records.dat",
-          new Tuple<Action<FileStream>, Action<FileStream>>(
-            new Action<FileStream>((input) => {
-              _records = BorrowRecords.Parser.ParseFrom(input);
-            }),
-            new Action<FileStream>((output) => {
-              _records.WriteTo(output);
-            }))
-        },
+        ["user.dat"] =
+        new Tuple<Action<FileStream>, Action<FileStream>>(
+          new Action<FileStream>((input) => {
+            _users = Users.Parser.ParseFrom(input);
+          }),
+          new Action<FileStream>((output) => {
+            _users.WriteTo(output);
+          })),
+
+        ["books.dat"] =
+        new Tuple<Action<FileStream>, Action<FileStream>>(
+          new Action<FileStream>((input) => {
+            _books = Books.Parser.ParseFrom(input);
+          }),
+          new Action<FileStream>((output) => {
+            _books.WriteTo(output);
+          })),
+
+        ["records.dat"] =
+        new Tuple<Action<FileStream>, Action<FileStream>>(
+          new Action<FileStream>((input) => {
+            _records = BorrowRecords.Parser.ParseFrom(input);
+          }),
+          new Action<FileStream>((output) => {
+            _records.WriteTo(output);
+          })),
       };
 
     private static string kConfigFolderName = "./.config/";
@@ -126,9 +122,9 @@ namespace Protobuf.Csharp.Example.Controller {
         if (record.BookName == bookname &&
           record.UserName == username &&
           record.ReturnTime == string.Empty) {
-            record.ReturnTime = DateTime.Now.ToString();
-            break;
-          }
+          record.ReturnTime = DateTime.Now.ToString();
+          break;
+        }
       }
       return true;
     }
